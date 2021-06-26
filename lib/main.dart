@@ -9,13 +9,33 @@ import 'package:wac2_flutter/product_widget.dart';
 import 'package:wac2_flutter/todoApp/main_page.dart';
 
 void main() {
-  runApp(MaterialApp(home: Page1(),
-      // initialRoute: Page1.routeName,
-      routes: {
-        Page1.routeName: (context) => Page1(),
-        Page2.routeName: (context) => Page2(''),
-        Page3.routeName: (context) => Page3(),
-      }));
+  runApp(MaterialApp(
+    home: Page1(),
+    // initialRoute: Page1.routeName,
+    routes: {
+      Page1.routeName: (context) => Page1(),
+      Page2.routeName: (context) => Page2(''),
+      Page3.routeName: (context) => Page3(),
+    },
+    onGenerateRoute: (RouteSettings routeSettings) {
+      String routeName = routeSettings.name;
+      var arguments = routeSettings.arguments;
+      if (routeName == 'palestine') {
+        return MaterialPageRoute(builder: (context) {
+          return Page2(arguments);
+        });
+      } else {
+        return MaterialPageRoute(builder: (context) {
+          return Scaffold(
+            backgroundColor: Colors.redAccent,
+            body: Center(
+              child: Text('404 Page Not Found'),
+            ),
+          );
+        });
+      }
+    },
+  ));
 }
 
 class MyApp extends StatelessWidget {

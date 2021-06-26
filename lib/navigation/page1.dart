@@ -77,7 +77,8 @@ class Page1 extends StatelessWidget {
           child: ElevatedButton(
             child: Text('page1'),
             onPressed: () async {
-              var data = await Navigator.of(context).pushNamed(Page2.routeName);
+              var data = await Navigator.of(context)
+                  .pushNamed('omar', arguments: 'test arguemnts');
               print(data);
             },
           ),
