@@ -8,15 +8,17 @@ import 'package:wac2_flutter/navigation/page3.dart';
 import 'package:wac2_flutter/product_widget.dart';
 import 'package:wac2_flutter/todoApp/main_page.dart';
 
+import 'forms/form_example.dart';
+
 void main() {
   runApp(MaterialApp(
-    home: Page1(),
+    home: LoginPage(),
     // initialRoute: Page1.routeName,
-    routes: {
-      Page1.routeName: (context) => Page1(),
-      Page2.routeName: (context) => Page2(''),
-      Page3.routeName: (context) => Page3(),
-    },
+    // routes: {
+    //   Page1.routeName: (context) => Page1(),
+    //   Page2.routeName: (context) => Page2(''),
+    //   Page3.routeName: (context) => Page3(),
+    // },
     onGenerateRoute: (RouteSettings routeSettings) {
       String routeName = routeSettings.name;
       var arguments = routeSettings.arguments;
@@ -35,6 +37,7 @@ void main() {
         });
       }
     },
+    onUnknownRoute: (RouteSettings routesettings) {},
   ));
 }
 

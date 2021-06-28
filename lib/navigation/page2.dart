@@ -15,7 +15,7 @@ class Page2 extends StatelessWidget {
         return Future.value(false);
       },
       child: Scaffold(
-        appBar: AppBar(title: Text(name)),
+        appBar: AppBar(title: Text('appbar')),
         body: Center(
           child: ElevatedButton(
             child: Text('page2'),
