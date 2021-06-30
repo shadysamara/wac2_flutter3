@@ -1,18 +1,44 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:wac2_flutter/data.dart';
 import 'package:wac2_flutter/navigation/page1.dart';
 import 'package:wac2_flutter/navigation/page2.dart';
 import 'package:wac2_flutter/navigation/page3.dart';
 import 'package:wac2_flutter/product_widget.dart';
+import 'package:wac2_flutter/responsive/responsive_screen.dart';
 import 'package:wac2_flutter/todoApp/main_page.dart';
 
 import 'forms/form_example.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+
+  runApp(
+    EasyLocalization(
+        supportedLocales: [Locale('en'), Locale('ar')],
+        path: 'assets/langs', // <-- change the path of the translation files
+        fallbackLocale: Locale('en'),
+        child: MyApp()),
+  );
+
+  // runApp(ScreenUtilInit(
+  //     designSize: Size(393, 835),
+  //     builder: () => LocalizedApp(
+  //           child: MaterialApp(
+  //               localizationsDelegates:
+  //                   translator.delegates, // Android + iOS Delegates
+  //               locale: translator.locale, // Active locale
+  //               supportedLocales: translator.locals(),
+  //               home: ResponsiveScreen()),
+  //         )));
+  /*
   runApp(MaterialApp(
-    home: LoginPage(),
+    home: ResponsiveScreen(),
     // initialRoute: Page1.routeName,
     // routes: {
     //   Page1.routeName: (context) => Page1(),
@@ -38,7 +64,7 @@ void main() {
       }
     },
     onUnknownRoute: (RouteSettings routesettings) {},
-  ));
+  ));*/
 }
 
 class MyApp extends StatelessWidget {
@@ -47,25 +73,32 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Scaffold(
-      appBar: AppBar(),
-      body: Container(
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(child: Text(textValue)),
-                CupertinoSwitch(
-                    value: switchValue,
-                    onChanged: (value) {
-                      print(value);
-                    })
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
+    return MaterialApp(
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
+        home: ResponsiveScreen()
+
+        // Scaffold(
+        //   appBar: AppBar(),
+        //   body: Container(
+        //     child: Column(
+        //       children: [
+        //         Row(
+        //           children: [
+        //             Expanded(child: Text(textValue)),
+        //             CupertinoSwitch(
+        //                 value: switchValue,
+        //                 onChanged: (value) {
+        //                   print(value);
+        //                 })
+        //           ],
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        // ),
+        );
     // return
     // Scaffold(
     //     appBar: AppBar(

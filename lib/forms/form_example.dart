@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:string_validator/string_validator.dart';
 
 class FormExample extends StatefulWidget {
   @override
@@ -138,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
                 validator: (v) {
                   if (v.length == 0 || v == null) {
                     return 'Required Field';
-                  } else if (!v.contains('@')) {
+                  } else if (!isEmail(v)) {
                     return 'Invalid Email syntax';
                   }
                 },
