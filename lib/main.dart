@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:wac2_flutter/data.dart';
+import 'package:wac2_flutter/local_storage/local_storage_test.dart';
+import 'package:wac2_flutter/local_storage/sp_helper.dart';
+import 'package:wac2_flutter/local_storage/splach_screen.dart';
 import 'package:wac2_flutter/navigation/page1.dart';
 import 'package:wac2_flutter/navigation/page2.dart';
 import 'package:wac2_flutter/navigation/page3.dart';
@@ -17,7 +20,7 @@ import 'forms/form_example.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-
+  await Sphelper.sphelper.initSharedPrefrences();
   runApp(
     EasyLocalization(
         supportedLocales: [Locale('en'), Locale('ar')],
@@ -77,7 +80,7 @@ class MyApp extends StatelessWidget {
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: context.locale,
-        home: ResponsiveScreen()
+        home: SplachScreen()
 
         // Scaffold(
         //   appBar: AppBar(),

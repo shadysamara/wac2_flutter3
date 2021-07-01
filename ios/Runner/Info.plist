@@ -7,6 +7,12 @@
 		<string>en</string>
 		<string>ar</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string> user can use camera to update their profile image, for this reason we asked to reach to camera and gallery</string>
+	<key>NSCameraUsageDescription</key>
+	<string> user can use camera to update their profile image, for this reason we asked to reach to camera and gallery</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string> user can use camera to update their profile image, for this reason we asked to reach to camera and gallery</string>	
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
