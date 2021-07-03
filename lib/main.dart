@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:wac2_flutter/data.dart';
+import 'package:wac2_flutter/database/database_ui.dart';
+import 'package:wac2_flutter/database/sqlite_helper.dart';
 import 'package:wac2_flutter/local_storage/local_storage_test.dart';
 import 'package:wac2_flutter/local_storage/sp_helper.dart';
 import 'package:wac2_flutter/local_storage/splach_screen.dart';
@@ -21,6 +23,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await Sphelper.sphelper.initSharedPrefrences();
+  await SqliteHelper.sqliteHelper.initDatabase();
   runApp(
     EasyLocalization(
         supportedLocales: [Locale('en'), Locale('ar')],
@@ -80,7 +83,7 @@ class MyApp extends StatelessWidget {
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: context.locale,
-        home: SplachScreen()
+        home: DatabaseUi()
 
         // Scaffold(
         //   appBar: AppBar(),
