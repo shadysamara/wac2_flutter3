@@ -283,7 +283,7 @@ class _AppState extends State<FirebaseConfiguration> {
 
         // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
-          return LoginPage();
+          return CarouselWithIndicatorDemo();
         }
 
         // Otherwise, show something whilst waiting for initialization to complete
