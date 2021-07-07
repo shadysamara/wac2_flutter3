@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:string_validator/string_validator.dart';
+import 'package:wac2_flutter/wac_firebase/auth_helper.dart';
 
 class FormExample extends StatefulWidget {
   @override
@@ -73,29 +75,26 @@ class _LoginPageState extends State<LoginPage> {
 
   String email = '';
 
+  String oldPassword;
   String password;
+  String password2;
 
   bool isAccepted = false;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  sendForm() {
+  sendForm() async {
     bool validationResult = formKey.currentState.validate();
     if (validationResult) {
       formKey.currentState.save();
-      if (isAccepted) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return HomePage(
-            email: this.email,
-            password: this.password,
-          );
-        }));
+      if (password == password2) {
+        await AuthHelpers.authHelpers.login(email, oldPassword);
+        AuthHelpers.authHelpers.resetPassword(password);
       } else {
         showDialog(
             context: context,
             builder: (context) {
               return AlertDialog(
-                title: Text('Warning'),
-                content: Text(
-                    'you have to accept our conditions before sending data'),
+                title: Text('Error'),
+                content: Text('Passwords are not matched'),
                 actions: [
                   TextButton(
                       onPressed: () {
@@ -136,6 +135,9 @@ class _LoginPageState extends State<LoginPage> {
             Container(
               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
               child: TextFormField(
+                onChanged: (v) {
+                  this.email = v;
+                },
                 validator: (v) {
                   if (v.length == 0 || v == null) {
                     return 'Required Field';
@@ -162,10 +164,46 @@ class _LoginPageState extends State<LoginPage> {
                   }
                 },
                 onSaved: (v) {
+                  this.oldPassword = v;
+                },
+                decoration: InputDecoration(
+                    labelText: 'OLD PASSWORD',
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10))),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+              child: TextFormField(
+                obscureText: true,
+                validator: (v) {
+                  if (v.length <= 6) {
+                    return 'the password must be larger than 6 letters';
+                  }
+                },
+                onSaved: (v) {
                   this.password = v;
                 },
                 decoration: InputDecoration(
-                    labelText: 'PASSWORD',
+                    labelText: 'NEW PASSWORD',
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10))),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+              child: TextFormField(
+                obscureText: true,
+                validator: (v) {
+                  if (v.length <= 6) {
+                    return 'the password must be larger than 6 letters';
+                  }
+                },
+                onSaved: (v) {
+                  this.password2 = v;
+                },
+                decoration: InputDecoration(
+                    labelText: 'CONFIRM PASSWORD',
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10))),
               ),
@@ -177,9 +215,15 @@ class _LoginPageState extends State<LoginPage> {
                   this.isAccepted = v;
                   setState(() {});
                 }),
+            TextButton(
+                onPressed: () {
+                  AuthHelpers.authHelpers.sendVeriificationCode();
+                },
+                child: Text('Forget Password?')),
             ElevatedButton(
                 onPressed: () {
-                  sendForm();
+                  AuthHelpers.authHelpers.checkUser();
+                  // print(user.email);
                 },
                 child: Text('SEND'))
           ],

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -83,7 +84,7 @@ class MyApp extends StatelessWidget {
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: context.locale,
-        home: DatabaseUi()
+        home: FirebaseConfiguration()
 
         // Scaffold(
         //   appBar: AppBar(),
@@ -253,3 +254,46 @@ class MyApp extends StatelessWidget {
 //     );
 //   }
 // }
+class FirebaseConfiguration extends StatefulWidget {
+  // Create the initialization Future outside of `build`:
+  @override
+  _AppState createState() => _AppState();
+}
+
+class _AppState extends State<FirebaseConfiguration> {
+  /// The future is part of the state of our widget. We should not call `initializeApp`
+  /// directly inside [build].
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      // Initialize FlutterFire:
+      future: _initialization,
+      builder: (context, snapshot) {
+        // Check for errors
+        if (snapshot.hasError) {
+          return Scaffold(
+            backgroundColor: Colors.redAccent,
+            body: Center(
+              child: Text('ERROR'),
+            ),
+          );
+        }
+
+        // Once complete, show your application
+        if (snapshot.connectionState == ConnectionState.done) {
+          return LoginPage();
+        }
+
+        // Otherwise, show something whilst waiting for initialization to complete
+        return Scaffold(
+          backgroundColor: Colors.redAccent,
+          body: Center(
+            child: Text('LOADING'),
+          ),
+        );
+      },
+    );
+  }
+}
